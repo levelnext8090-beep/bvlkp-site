@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BVLKP - Digital Membership Card</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Noto+Sans+Devanagari:wght@400;700;900&display=swap');
+        
+        body { font-family: 'Poppins', sans-serif; background-color: #f1f5f9; }
+        .hindi-font { font-family: 'Noto Sans Devanagari', sans-serif; }
+
+        @media print {
+            body { background: white; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            #certificate-area {
+                width: 210mm;
+                height: auto;
+                padding: 0;
+                box-shadow: none !important;
+                border: 1px solid #ccc;
+            }
+        }
+
+        .card-container {
+            border: 2px solid #000;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.08;
+            width: 350px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .official-seal {
+            width: 120px;
+            height: 120px;
+            border: 3px double #1e3a8a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #1e3a8a;
+            font-weight: 900;
+            font-size: 10px;
+            padding: 5px;
+            position: relative;
+            background: rgba(30, 58, 138, 0.03);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print p-6">
+        <div class="max-w-md mx-auto bg-white p-8 rounded-3xl shadow-2xl border-t-8 border-blue-900 text-center">
+            <h2 class="text-2xl font-black text-blue-900 mb-6">डिजिटल सेवा कार्ड सत्यापन</h2>
+            <div class="space-y-4">
+                <input type="text" id="regIdInput" placeholder="ID या मोबाइल नंबर डालें" class="w-full p-4 border-2 rounded-2xl text-center font-bold outline-none focus:border-blue-900">
+                <button onclick="fetchDetails()" id="searchBtn" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold hover:bg-orange-600 transition shadow-lg">
+                    विवरण खोजें <i class="fas fa-search ml-2"></i>
+                </button>
+            </div>
+            <p id="msg" class="mt-4 text-red-500 font-bold"></p>
+        </div>
+    </div>
+
+    <div id="result-section" class="hidden pb-20 px-2">
+        <div id="certificate-area" class="max-w-4xl mx-auto card-container shadow-2xl bg-white">
+            <img src="bvp.png" class="watermark"> 
+            
+            <div class="p-4 border-b border-gray-200 relative z-10">
+                <div class="flex justify-between items-center">
+                    <img src="bvp.png" class="h-20"> 
+                    <div class="text-center flex-grow px-2">
+                        <h1 class="text-4xl font-black text-red-600 hindi-font">भारतीय विद्यार्थी लोक कल्याण परिषद</h1>
+                        <p class="text-blue-900 font-black text-lg hindi-font">(इकाई-नेक्स्ट लेवल एजुकेशनल कॉउन्सिल)</p>
+                        <p class="text-xs font-bold text-black hindi-font">भारत सरकार के अधीन पंजीकृत एक स्वायत्त निकाय</p>
+				
+			<p class="text-xs font-bold text-black hindi-font">कॉर्पोरेट कार्य मंत्रालय, नीति आयोग, सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय, जनजातीय कार्य मंत्रालय, भारत सरकार</p>
+				
+                    </div>
+                    <img src="logo.png" class="h-20"> 
+                </div>
+            </div>
+
+            <div class="text-center my-4 relative z-10">
+                <h2 class="inline-block text-2xl font-black text-blue-900 border-b-4 border-blue-900 px-10 pb-1">डिजिटल सेवा कार्ड</h2>
+            </div>
+
+            <div class="px-10 py-4 flex relative z-10">
+                <div class="flex-grow space-y-2 hindi-font text-lg">
+                    <div class="flex">
+                        <span class="w-48 font-bold">Candidate Name<P> सदस्य का नाम</P> </span>
+                        <span class="font-bold">: <span id="display-name" class="ml-2 uppercase">---</span></span>
+                    </div>
+                    <div class="flex">
+                        <span class="w-48 font-bold">Issue Date <P> जारी करने की तिथि</P> </span>
+                        <span class="font-bold">: <span id="display-issuedate" class="ml-2">--.--.----</span></span>
+                    </div>
+                    <div class="flex text-red-600">
+                        <span class="w-48 font-bold text-black">Vailidity <P> वैधता</P> </span>
+                        <span class="font-bold">: <span id="display-validity" class="ml-2">--.--.----</span></span>
+                    </div>
+                    <div class="flex">
+                        <span class="w-48 font-bold">Mobile No. <P> मोबाइल नं०</P> </span>
+                        <span class="font-bold">: <span id="display-mobile" class="ml-2">---</span></span>
+                    </div>
+                    <div class="flex">
+                        <span class="w-48 font-bold">Father/Husband Name<P>  पिता / पति का नाम</P> </span>
+                        <span class="font-bold">: <span id="display-parent" class="ml-2 uppercase">---</span></span>
+                    </div>
+                    <div class="flex">
+                        <span class="w-48 font-bold">Address <P> पता</P> </span>
+                        <span class="font-bold">: <span id="display-location" class="ml-2 text-sm leading-tight">---</span></span>
+                    </div>
+                </div>
+
+                <div class="w-64 flex flex-col items-center justify-between py-2">
+                    <div class="text-center">
+                        <p class="font-bold text-xs mb-1">Membership Card No मेम्बरशिप कार्ड संख्या</p>
+                        <p id="display-regid" class="text-red-600 font-black text-xl bg-red-50 px-4 py-1 rounded border border-red-200">---</p>
+                    </div>
+
+                    <div class="my-4">
+                        <div class="official-seal">
+                            <div class="hindi-font leading-tight uppercase scale-90">
+                                <p>BVLKP</p>
+                                <p class="text-[7px]">सत्यापित सदस्यता</p>
+                                <div class="my-1 h-[1px] bg-blue-900 w-full"></div>
+                                <p class="text-[8px]">DIGITAL SEAL</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <img src="sign.png" class="h-12 mx-auto mb-[-5px]">
+                        <div class="w-40 border-t border-black pt-1">
+                            <p class="text-[10px] font-bold uppercase">प्राधिकारी हस्ताक्षर</p>
+                            <p class="text-[8px] font-black text-blue-900">भारतीय विद्यार्थी लोक कल्याण परिषद</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-10 pb-6 hindi-font relative z-10">
+                <p class="font-black text-black text-sm">निर्देश:</p>
+                <ol class="text-[11px] font-bold list-decimal pl-4 leading-tight">
+                    <li>यह कार्ड परिषद की सदस्यता का प्रमाण है।</li>
+                    <li>इस कार्ड के माध्यम से वैधता तिथि तक सदस्य को निःशुल्क ऑनलाइन फॉर्म भरने (सरकारी नौकरी, स्कॉलरशिप, प्रवेश परीक्षाओं)/डिजिटल सेवाओं/सरकारी योजनाओं की तकनीकी सहायता की अनुमति होगी।</li>
+                    <li>परिषद केवल सर्विस चार्ज फी दे रही है। सरकारी शुल्क देय होगा।</li>
+                </ol>
+                
+                <div class="flex justify-between items-end mt-4 border-t pt-2">
+                    <div class="text-[10px] font-bold">
+                        <p>हेल्पलाइन न. 9621297603, 8005072756</p>
+                        <p>ईमेल—levelnext8090@gmail.com</p>
+                    </div>
+                    <div class="text-center">
+                        <img id="cert-qr" src="" class="h-16 w-16 mx-auto">
+                        <p class="text-[8px] font-bold">Scan to Verify</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-center mt-10 no-print">
+            <button onclick="window.print()" class="bg-green-600 text-white px-12 py-4 rounded-full font-black shadow-xl hover:bg-green-700 transition">
+                <i class="fas fa-print mr-2"></i> कार्ड प्रिंट करें
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // अपना नया वाला Apps Script URL यहाँ डालें
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkpnTQjrJR9OWlAZ39WZB2dAQ5zzWCJ5csN_cFw83pt83AfIClEkCkjwWupsl5wx_E-Q/exec';
+
+        async function fetchDetails() {
+            const searchId = document.getElementById('regIdInput').value;
+            if(!searchId) return alert("ID या मोबाइल नंबर डालें!");
+
+            const btn = document.getElementById('searchBtn');
+            const msg = document.getElementById('msg');
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> खोज रहे हैं...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`${SCRIPT_URL}?regId=${searchId}`);
+                const data = await response.json();
+
+                if(data.result === "found") {
+                    document.getElementById('result-section').classList.remove('hidden');
+                    msg.innerText = "";
+                    
+                    document.getElementById('display-name').innerText = data.name;
+                    document.getElementById('display-parent').innerText = data.parent;
+                    document.getElementById('display-mobile').innerText = data.mobile;
+                    
+                    // तारीखों से टाइम हटाने के लिए .substring(0,10) का प्रयोग
+                    document.getElementById('display-issuedate').innerText = data.issuedate ? data.issuedate.substring(0, 10) : "--.--.----"; 
+                    document.getElementById('display-validity').innerText = data.validity ? data.validity.substring(0, 10) : "--.--.----"; 
+                    
+                    document.getElementById('display-regid').innerText = data.regid;
+                    document.getElementById('display-location').innerText = `ग्राम व पोस्ट ${data.address}, जनपद ${data.district} (${data.state})।`;
+
+                    const currentUrl = window.location.href.split('?')[0];
+                    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${currentUrl}?regId=${data.regid}`;
+                    document.getElementById('cert-qr').src = qrUrl;
+
+                    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    msg.innerText = "कोई रिकॉर्ड नहीं मिला!";
+                    document.getElementById('result-section').classList.add('hidden');
+                }
+            } catch (error) {
+                msg.innerText = "सर्वर त्रुटि!";
+            } finally {
+                btn.innerHTML = "विवरण खोजें <i class='fas fa-search ml-2'></i>";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

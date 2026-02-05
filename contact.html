@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>संपर्क करें - BVLKP Official Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; }
+        .govt-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+        .contact-card:hover { transform: translateY(-5px); transition: all 0.3s ease; }
+    </style>
+</head>
+<body>
+
+    <div class="govt-gradient text-white py-16 px-6 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10">
+            <i class="fas fa-headset text-[200px] -rotate-12 absolute -bottom-10 -left-10"></i>
+        </div>
+        <div class="relative z-10">
+            <h1 class="text-4xl md:text-5xl font-black mb-4">सहायता केंद्र (Help Desk)</h1>
+            <p class="text-orange-400 font-bold uppercase tracking-widest text-sm">हम आपकी सहायता के लिए सदैव तत्पर हैं</p>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 py-12 -mt-10">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-6 rounded-3xl shadow-xl border-b-4 border-green-500 contact-card">
+                    <div class="bg-green-100 w-12 h-12 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fab fa-whatsapp text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg">WhatsApp सहायता</h3>
+                    <p class="text-gray-500 text-sm mb-4">त्वरित समाधान के लिए मैसेज करें</p>
+                    <a href="https://wa.me/919621297603" class="text-green-600 font-bold hover:underline">+91 9621297603</a>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl shadow-xl border-b-4 border-blue-600 contact-card">
+                    <div class="bg-blue-100 w-12 h-12 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-envelope-open-text text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg">ईमेल संपर्क</h3>
+                    <p class="text-gray-500 text-sm mb-4">आधिकारिक पत्राचार के लिए</p>
+                    <a href="mailto:levelnext8090@gmail.com" class="text-blue-600 font-bold hover:underline">levelnext8090@gmail.com</a>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl shadow-xl border-b-4 border-orange-500 contact-card">
+                    <div class="bg-orange-100 w-12 h-12 rounded-2xl flex items-center justify-center mb-4">
+                        <i class="fas fa-map-marked-alt text-orange-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg">मुख्य कार्यालय</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">
+                        भारतीय विद्यार्थी लोक कल्याण परिषद,<br>
+                        पटेल मार्केट, हरख बाराबंकी, उत्तर प्रदेश
+                    </p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-12 border border-gray-100">
+                    <h2 class="text-2xl font-black text-blue-900 mb-8 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-orange-500 rounded-full"></span>
+                        हमें संदेश भेजें (Send a Message)
+                    </h2>
+                    
+                    <form id="contactForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="hidden" name="formType" value="contact_msg">
+
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">आपका नाम</label>
+                            <input type="text" id="contactName" required placeholder="Full Name" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-blue-500 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">मोबाइल नंबर</label>
+                            <input type="tel" id="contactMobile" required placeholder="Mobile Number" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-blue-500 transition-all">
+                        </div>
+                        <div class="md:col-span-2 space-y-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">विषय (Subject)</label>
+                            <select id="contactSubject" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-blue-500 transition-all text-gray-500">
+                                <option>मेंबरशिप संबंधित प्रश्न</option>
+                                <option>फॉर्म भरने में समस्या</option>
+                                <option>डॉक्यूमेंट वेरिफिकेशन</option>
+                                <option>अन्य शिकायत/सुझाव</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2 space-y-1">
+                            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">आपका संदेश</label>
+                            <textarea id="contactMessage" rows="4" required placeholder="Type your message here..." class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-blue-500 transition-all"></textarea>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <button type="submit" id="msgSubmitBtn" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-black py-5 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-3">
+                                <span>संदेश भेजें</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white h-96">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14238.4862529949!2d81.258457!3d26.852431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399959e133e9d40b%3A0xe54e207937409f07!2sHarakh%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1707123456789!5m2!1sen!2sin" 
+            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // अपना नया Deployment URL यहाँ डालें
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkpnTQjrJR9OWlAZ39WZB2dAQ5zzWCJ5csN_cFw83pt83AfIClEkCkjwWupsl5wx_E-Q/exec'; 
+
+        document.getElementById('contactForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('msgSubmitBtn');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> भेज रहे हैं...";
+            btn.disabled = true;
+
+            const formData = new URLSearchParams();
+            formData.append('formType', 'contact_msg');
+            formData.append('name', document.getElementById('contactName').value);
+            formData.append('mobile', document.getElementById('contactMobile').value);
+            formData.append('subject', document.getElementById('contactSubject').value);
+            formData.append('message', document.getElementById('contactMessage').value);
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+
+                const result = await response.json();
+
+                if (result.result === "success") {
+                    alert("धन्यवाद! आपका संदेश हमारी टीम को प्राप्त हो गया है।");
+                    this.reset();
+                } else {
+                    throw new Error("Error saving message");
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert("नेटवर्क एरर! कृपया दोबारा प्रयास करें या सीधे WhatsApp करें।");
+            } finally {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
